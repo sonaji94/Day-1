@@ -76,16 +76,19 @@ if load_button:
 
 
     # =========================
-    # Technical Indicators
-    # =========================
-    data["RSI"] = RSIIndicator(data["Close"], window=14).rsi()
+# Technical Indicators
+# =========================
+close_series = data["Close"].squeeze()
 
-    macd = MACD(data["Close"])
-    data["MACD"] = macd.macd()
-    data["Signal_Line"] = macd.macd_signal()
+data["RSI"] = RSIIndicator(close_series, window=14).rsi()
 
-    data["MA20"] = data["Close"].rolling(window=20).mean()
-    data["MA50"] = data["Close"].rolling(window=50).mean()
+macd = MACD(close_series)
+data["MACD"] = macd.macd()
+data["Signal_Line"] = macd.macd_signal()
+
+data["MA20"] = close_series.rolling(window=20).mean()
+data["MA50"] = close_series.rolling(window=50).mean()
+
 
 
     # =========================
