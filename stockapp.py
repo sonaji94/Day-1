@@ -74,22 +74,19 @@ if load_button:
     st.subheader(f"📄 Latest Data for {ticker}")
     st.dataframe(data.tail())
 
-
     # =========================
-# Technical Indicators
-# =========================
-close_series = data["Close"].squeeze()
+    # Technical Indicators
+    # =========================
+    close_series = data["Close"].squeeze()
 
-data["RSI"] = RSIIndicator(close_series, window=14).rsi()
+    data["RSI"] = RSIIndicator(close_series, window=14).rsi()
 
-macd = MACD(close_series)
-data["MACD"] = macd.macd()
-data["Signal_Line"] = macd.macd_signal()
+    macd = MACD(close_series)
+    data["MACD"] = macd.macd()
+    data["Signal_Line"] = macd.macd_signal()
 
-data["MA20"] = close_series.rolling(window=20).mean()
-data["MA50"] = close_series.rolling(window=50).mean()
-
-
+    data["MA20"] = close_series.rolling(window=20).mean()
+    data["MA50"] = close_series.rolling(window=50).mean()
 
     # =========================
     # Price Chart
@@ -108,7 +105,6 @@ data["MA50"] = close_series.rolling(window=50).mean()
     ax.legend()
 
     st.pyplot(fig)
-
 
     # =========================
     # Machine Learning Dataset
@@ -132,7 +128,6 @@ data["MA50"] = close_series.rolling(window=50).mean()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-
     # =========================
     # Model Training
     # =========================
@@ -141,7 +136,6 @@ data["MA50"] = close_series.rolling(window=50).mean()
 
     predictions = model.predict(X_test_scaled)
 
-
     # =========================
     # Model Evaluation
     # =========================
@@ -149,10 +143,8 @@ data["MA50"] = close_series.rolling(window=50).mean()
     r2 = r2_score(y_test, predictions)
 
     col1, col2 = st.columns(2)
-
     col1.metric("📉 Mean Squared Error", f"{mse:.2f}")
     col2.metric("📊 R² Score", f"{r2:.2f}")
-
 
     # =========================
     # Actual vs Predicted Plot
@@ -171,7 +163,6 @@ data["MA50"] = close_series.rolling(window=50).mean()
 
     st.pyplot(fig2)
 
-
     # =========================
     # Next Day Prediction
     # =========================
@@ -181,7 +172,6 @@ data["MA50"] = close_series.rolling(window=50).mean()
     st.success(
         f"📅 **Predicted Next-Day Closing Price:** **${next_day_price:.2f}**"
     )
-
 
     # =========================
     # Disclaimer
